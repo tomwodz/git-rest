@@ -1,39 +1,47 @@
 package pl.tomwodz.gitrest.git.infrastructure.controller;
 
 import feign.FeignException;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
-import pl.tomwodz.gitrest.git.infrastructure.error.response.ErrorXmlResponseDto;
+import pl.tomwodz.gitrest.git.infrastructure.controller.dto.response.GetAllReposResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.error.model.GithubNotFoundUsernameException;
+import pl.tomwodz.gitrest.git.infrastructure.error.response.ErrorXmlResponseDto;
+import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.ReposByUsernameResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.service.GithubService;
+import pl.tomwodz.gitrest.git.infrastructure.service.IRepoService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFromListReposByUsernameResponseDtoToListRepo;
+import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFromRepoToGetAllReposResponseDto;
+
 @RestController
 @Log4j2
+@AllArgsConstructor
 public class GitRestController {
 
     private final GithubService githubService;
+    private final IRepoService repoService;
 
     private List<SampleViewResponseDto> response = new ArrayList<>();
 
-    public GitRestController(GithubService githubService) {
-        this.githubService = githubService;
-    }
-
     @GetMapping(path = "/{username}")
     public ResponseEntity<List<SampleViewResponseDto>> getUsernameAllGithubRepositories(@PathVariable String username) {
+        log.info("get repos and branches from github by " + username);
         try {
             response = githubService.makeGetRequestAllByUsername(username);
+            return ResponseEntity.ok(response);
         } catch (FeignException exception) {
             throw new GithubNotFoundUsernameException("not existing github user");
         }
-        log.info(username);
-        return ResponseEntity.ok(response);
     }
 
     @GetMapping(path = "/{username}", headers = "Accept=application/xml")
@@ -41,5 +49,19 @@ public class GitRestController {
         log.info("xml not use");
         ErrorXmlResponseDto response = new ErrorXmlResponseDto(HttpStatus.BAD_REQUEST, "xml not use");
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path = "/github/{username}")
+    public ResponseEntity<GetAllReposResponseDto> getUsernameAllGithubRepos(@PathVariable String username) {
+        log.info("get and save repos from github by " + username);
+        try {
+            List<ReposByUsernameResponseDto> request = githubService.makeGetRequestAllReposByUsername(username);
+            List<Repo> reposToSave = mapFromListReposByUsernameResponseDtoToListRepo(request, username);
+            List<Repo> reposSaved = repoService.addListRepos(reposToSave);
+            GetAllReposResponseDto response = mapFromRepoToGetAllReposResponseDto(reposSaved);
+            return ResponseEntity.ok(response);
+        } catch (FeignException exception) {
+            throw new GithubNotFoundUsernameException("not existing github user");
+        }
     }
 }

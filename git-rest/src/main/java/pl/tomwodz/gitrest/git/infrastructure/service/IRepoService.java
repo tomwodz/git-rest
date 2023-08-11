@@ -17,4 +17,7 @@ public interface IRepoService {
     void existsById(Long id);
 
     void updateById(Long id, Repo newRepo);
+
+    List<Repo> addListRepos(List<Repo> repos);
+
 }

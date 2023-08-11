@@ -1,21 +1,16 @@
 package pl.tomwodz.gitrest.git.infrastructure.controller;
 
-import feign.FeignException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tomwodz.gitrest.domain.model.Repo;
-import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.controller.dto.request.CreateRepoRequestDto;
 import pl.tomwodz.gitrest.git.infrastructure.controller.dto.request.UpdateRepoRequestDto;
 import pl.tomwodz.gitrest.git.infrastructure.controller.dto.response.*;
-import pl.tomwodz.gitrest.git.infrastructure.error.model.GithubNotFoundUsernameException;
-import pl.tomwodz.gitrest.git.infrastructure.service.GithubService;
 import pl.tomwodz.gitrest.git.infrastructure.service.IRepoService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.*;
@@ -27,7 +22,6 @@ import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.*;
 public class RepoRestController {
 
     private final IRepoService repoService;
-    private final GithubService githubService;
 
     @GetMapping
     public ResponseEntity<GetAllReposResponseDto> getAllRepos() {

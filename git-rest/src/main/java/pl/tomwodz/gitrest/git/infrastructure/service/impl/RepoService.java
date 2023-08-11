@@ -33,7 +33,7 @@ public class RepoService implements IRepoService {
 
     @Override
     public Repo addRepo(Repo repo) {
-        log.info("adding new reop: " + repo);
+        log.info("adding new repo: " + repo);
         return repoRepository.save(repo);
     }
 
@@ -56,5 +56,13 @@ public class RepoService implements IRepoService {
         existsById(id);
         repoRepository.updateById(id, newRepo);
         log.info("Updated repo with id: " + id);
+    }
+
+    @Override
+    public List<Repo> addListRepos(List<Repo> repos) {
+        log.info("adding new repos form GITHUB: ");
+        return repos.stream()
+                .map(repo -> repoRepository.save(repo))
+                .toList();
     }
 }

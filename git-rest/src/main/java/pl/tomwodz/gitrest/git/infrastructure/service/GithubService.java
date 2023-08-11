@@ -1,23 +1,26 @@
 package pl.tomwodz.gitrest.git.infrastructure.service;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import pl.tomwodz.gitrest.domain.model.Branch;
+import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.GithubProxy;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.BranchesByUsernameResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.ReposByUsernameResponseDto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+@Log4j2
 public class GithubService {
 
-    private final GithubProxy githubProxy;
 
-    public GithubService(GithubProxy githubProxy) {
-        this.githubProxy = githubProxy;
-    }
+    private final GithubProxy githubProxy;
 
     private List<ReposByUsernameResponseDto> makeGetRequestByUsername(String username){
         return this.githubProxy.makeGetRequestReposByUsername(username);
@@ -41,6 +44,11 @@ public class GithubService {
             sampleViewResponseDto.add(new SampleViewResponseDto(repos.get(i).name(),username,branches));
         }
         return sampleViewResponseDto;
+    }
+
+    public List<ReposByUsernameResponseDto> makeGetRequestAllReposByUsername(String username){
+        List<ReposByUsernameResponseDto> repos = makeGetRequestByUsername(username);
+        return repos;
     }
 
 }
