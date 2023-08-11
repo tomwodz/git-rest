@@ -1,11 +1,11 @@
 package pl.tomwodz.gitrest.git.infrastructure.service;
 
 import org.springframework.stereotype.Service;
-import pl.tomwodz.gitrest.domain.model.*;
+import pl.tomwodz.gitrest.domain.model.Branch;
+import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.GithubProxy;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.BranchesByUsernameResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.ReposByUsernameResponseDto;
-import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,5 @@ public class GithubService {
         }
         return sampleViewResponseDto;
     }
-
 
 }

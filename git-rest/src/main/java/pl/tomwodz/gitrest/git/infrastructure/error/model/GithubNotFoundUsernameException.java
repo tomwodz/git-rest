@@ -1,4 +1,4 @@
-package pl.tomwodz.gitrest.git.infrastructure.error;
+package pl.tomwodz.gitrest.git.infrastructure.error.model;
 
 public class GithubNotFoundUsernameException extends RuntimeException {
 
