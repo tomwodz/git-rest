@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Github - Spring Boot - REST API - Client to Github</title>
+    <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/repo.css">
+</head>
+<body>
+
+<div th:replace="~{fragments.html :: logo}"></div>
+<div th:replace="~{fragments.html :: menu}"></div>
+
+<div id="content">
+
+    <div th:each="repo: ${repos}" class="repo">
+        <div th:text="${repo.owner}" class="owner"></div>
+        <div th:text="${repo.name}" class="name"></div>
+    </div>
+
+</div>
+
+</body>
+</html>

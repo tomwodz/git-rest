@@ -1,5 +1,6 @@
 package pl.tomwodz.gitrest.git.infrastructure.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -12,10 +13,13 @@ import java.util.Optional;
 public interface IRepoRepository extends Repository<Repo, Long> {
 
     @Query("SELECT r FROM Repo r")
-    List<Repo> findAll();
+    List<Repo> findAll(Pageable pageable);
 
     @Query("SELECT r FROM Repo r WHERE  r.id =:id")
     Optional<Repo> findById(Long id);
+
+    @Query("SELECT r FROM Repo r WHERE  r.owner =:owner")
+    List<Repo> findByOwner(String owner);
 
     Repo save(Repo repo);
 
@@ -28,4 +32,6 @@ public interface IRepoRepository extends Repository<Repo, Long> {
     @Modifying
     @Query("UPDATE Repo r SET r.owner = :#{#newRepo.owner}, r.name = :#{#newRepo.name} WHERE r.id = :id")
     void updateById(Long id, Repo newRepo);
+
+    boolean existsByOwner(String owner);
 }

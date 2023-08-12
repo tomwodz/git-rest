@@ -3,12 +3,14 @@ package pl.tomwodz.gitrest.git.infrastructure.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.git.infrastructure.error.model.RepoNotFoundException;
 import pl.tomwodz.gitrest.git.infrastructure.repository.IRepoRepository;
 import pl.tomwodz.gitrest.git.infrastructure.service.IRepoService;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,15 +22,22 @@ public class RepoService implements IRepoService {
     private final IRepoRepository repoRepository;
 
     @Override
-    public List<Repo> findAll() {
+    public List<Repo> findAll(Pageable pageable) {
         log.info("findAll repos");
-        return this.repoRepository.findAll();
+        return this.repoRepository.findAll(pageable);
     }
 
     @Override
     public Repo findById(Long id) {
         return this.repoRepository.findById(id)
                 .orElseThrow(() -> new RepoNotFoundException("Repo with id " + id + " not found."));
+    }
+
+    @Override
+    public List<Repo> findByOwner(String owner) {
+        log.info("findAll repos from the database from " + owner);
+        this.existsByOwner(owner);
+        return this.repoRepository.findByOwner(owner);
     }
 
     @Override
@@ -52,6 +61,13 @@ public class RepoService implements IRepoService {
     }
 
     @Override
+    public void existsByOwner(String owner) {
+        if (!repoRepository.existsByOwner(owner)) {
+            throw new RepoNotFoundException("Repo with owner" + owner + " not found.");
+        }
+    }
+
+    @Override
     public void updateById(Long id, Repo newRepo) {
         existsById(id);
         repoRepository.updateById(id, newRepo);
@@ -65,4 +81,6 @@ public class RepoService implements IRepoService {
                 .map(repo -> repoRepository.save(repo))
                 .toList();
     }
+
+
 }

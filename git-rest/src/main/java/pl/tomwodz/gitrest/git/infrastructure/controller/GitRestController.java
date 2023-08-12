@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
@@ -26,6 +27,7 @@ import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFro
 @RestController
 @Log4j2
 @AllArgsConstructor
+@RequestMapping("/github")
 public class GitRestController {
 
     private final GithubService githubService;
@@ -51,7 +53,7 @@ public class GitRestController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "/github/{username}")
+    @GetMapping(path = "/repos/{username}")
     public ResponseEntity<GetAllReposResponseDto> getUsernameAllGithubRepos(@PathVariable String username) {
         log.info("get and save repos from github by " + username);
         try {

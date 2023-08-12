@@ -1,0 +1,26 @@
+.repo {
+    text-align: left;
+    margin: 10px;
+}
+
+.repo:hover {
+    background-color: #fffef5;
+    text-align: left;
+    margin: 10px;
+}
+
+.repo .owner{
+    width: 30%;
+    font-size: 14px;
+    margin: 5px;
+    text-align: left;
+    display: inline-block;
+}
+
+.repo .name{
+    width: 60%;
+    font-size: 14px;
+    margin: 5px;
+    text-align: left;
+    display: inline-block;
+}

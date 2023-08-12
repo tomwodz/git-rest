@@ -3,6 +3,7 @@ package pl.tomwodz.gitrest.git.infrastructure.controller;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.tomwodz.gitrest.domain.model.Repo;
@@ -24,8 +25,8 @@ public class RepoRestController {
     private final IRepoService repoService;
 
     @GetMapping
-    public ResponseEntity<GetAllReposResponseDto> getAllRepos() {
-        List<Repo> allRepos = repoService.findAll();
+    public ResponseEntity<GetAllReposResponseDto> getAllRepos(Pageable pageable) {
+        List<Repo> allRepos = repoService.findAll(pageable);
         GetAllReposResponseDto response = mapFromRepoToGetAllReposResponseDto(allRepos);
         return ResponseEntity.ok(response);
     }
@@ -34,6 +35,13 @@ public class RepoRestController {
     public ResponseEntity<GetRepoResponseDto> getRepoById(@PathVariable Long id) {
         Repo repo = repoService.findById(id);
         GetRepoResponseDto response = mapFromRepoToGetRepoResponseDto(repo);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(path="/owner/{username}")
+    public ResponseEntity<GetAllReposResponseDto> getRepoByOwner(@PathVariable String username) {
+        List<Repo> allRepos = repoService.findByOwner(username);
+        GetAllReposResponseDto response = mapFromRepoToGetAllReposResponseDto(allRepos);
         return ResponseEntity.ok(response);
     }
 
