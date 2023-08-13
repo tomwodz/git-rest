@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
-import pl.tomwodz.gitrest.git.infrastructure.controller.dto.response.GetAllReposResponseDto;
+import pl.tomwodz.gitrest.domain.service.GithubService;
+import pl.tomwodz.gitrest.domain.service.IRepoAdder;
+import pl.tomwodz.gitrest.git.infrastructure.controller.dto.response.GetAllReposByOwnerResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.error.model.GithubNotFoundUsernameException;
 import pl.tomwodz.gitrest.git.infrastructure.error.response.ErrorXmlResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.ReposByUsernameResponseDto;
-import pl.tomwodz.gitrest.git.infrastructure.service.GithubService;
-import pl.tomwodz.gitrest.git.infrastructure.service.IRepoService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFromListReposByUsernameResponseDtoToListRepo;
-import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFromRepoToGetAllReposResponseDto;
+import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFromRepoToGetAllReposByOwnerResponseDto;
 
 @RestController
 @Log4j2
@@ -31,7 +31,7 @@ import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFro
 public class GitRestController {
 
     private final GithubService githubService;
-    private final IRepoService repoService;
+    private final IRepoAdder repoAdder;
 
     private List<SampleViewResponseDto> response = new ArrayList<>();
 
@@ -54,13 +54,13 @@ public class GitRestController {
     }
 
     @GetMapping(path = "/repos/{username}")
-    public ResponseEntity<GetAllReposResponseDto> getUsernameAllGithubRepos(@PathVariable String username) {
+    public ResponseEntity<GetAllReposByOwnerResponseDto> getUsernameAllGithubRepos(@PathVariable String username) {
         log.info("get and save repos from github by " + username);
         try {
             List<ReposByUsernameResponseDto> request = githubService.makeGetRequestAllReposByUsername(username);
             List<Repo> reposToSave = mapFromListReposByUsernameResponseDtoToListRepo(request, username);
-            List<Repo> reposSaved = repoService.addListRepos(reposToSave);
-            GetAllReposResponseDto response = mapFromRepoToGetAllReposResponseDto(reposSaved);
+            List<Repo> reposSaved = repoAdder.addListRepos(reposToSave);
+            GetAllReposByOwnerResponseDto response = mapFromRepoToGetAllReposByOwnerResponseDto(reposSaved);
             return ResponseEntity.ok(response);
         } catch (FeignException exception) {
             throw new GithubNotFoundUsernameException("not existing github user");

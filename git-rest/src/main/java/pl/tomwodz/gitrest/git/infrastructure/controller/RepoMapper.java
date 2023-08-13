@@ -56,4 +56,11 @@ public class RepoMapper {
                 .forEach(repoDto -> repos.add(new Repo(owner, repoDto.name())));
         return repos;
     }
+
+    public static GetAllReposByOwnerResponseDto mapFromRepoToGetAllReposByOwnerResponseDto(List<Repo> reposSaved) {
+        List<RepoDto> repoDtos = reposSaved.stream()
+                .map(RepoMapper::mapFromRepoToRepoDto)
+                .toList();
+        return new GetAllReposByOwnerResponseDto(repoDtos);
+    }
 }

@@ -1,17 +1,15 @@
-package pl.tomwodz.gitrest.git.infrastructure.service;
+package pl.tomwodz.gitrest.domain.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import pl.tomwodz.gitrest.domain.model.Branch;
-import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.GithubProxy;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.BranchesByUsernameResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.proxy.dto.response.ReposByUsernameResponseDto;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service

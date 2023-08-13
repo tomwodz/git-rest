@@ -1,4 +1,4 @@
-package pl.tomwodz.gitrest.git.infrastructure.repository;
+package pl.tomwodz.gitrest.domain.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
