@@ -47,7 +47,7 @@ public class RepoRetriever implements IRepoRetriever {
     @Override
     public void existsByOwner(String owner) {
         if (!repoRepository.existsByOwner(owner)) {
-            throw new RepoNotFoundException("Repo with owner" + owner + " not found.");
+            throw new RepoNotFoundException("Repo with owner " + owner + " not found.");
         }
     }
 

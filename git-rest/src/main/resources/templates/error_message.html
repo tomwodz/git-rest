@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <title>Github - Spring Boot - REST API - Client to Github</title>
     <link rel="stylesheet" href="/common.css">
+    <link rel="stylesheet" href="/repo.css">
 </head>
 <body>
+
 <div th:replace="~{fragments.html :: logo}"></div>
 <div th:replace="~{fragments.html :: menu}"></div>
 
 <div id="content">
-    Zapraszam do zapoznania się z tym projektem.<br><br>
-    Technologie: REST API, Client to GITHUB, Spring Boot, Spring Data, Hibernate, Docker, Postgresql, Swagger, Spring MVC<br><br>
-    W przypadku pytań prosze o kontakt:<br>
-    twodzinski@op.pl
+
+    <div th:text="${error_message}" class="repo">
+    </div>
+
 </div>
+
 </body>
 </html>

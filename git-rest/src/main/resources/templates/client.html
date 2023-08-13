@@ -7,28 +7,24 @@
     <link rel="stylesheet" href="/repo.css">
 </head>
 <body>
-
 <div th:replace="~{fragments.html :: logo}"></div>
 <div th:replace="~{fragments.html :: menu}"></div>
 
 <div id="content">
-
-    <div class="repo">
-        <div class="owner">Id: (db)</div>
-        <div class="owner">Właściciel:</div>
-        <div class="name">Repozytorium:</div>
-        <div class="update"></div>
-        <div class="delete"></div>
+    <div>
+        <form method="post">
+            <input type="text" name="owner" id="owner" class="input" placeholder="Nazwa użytkownika"
+                   th:field="*{requestModel.owner}">
+            <input type="submit" value="Wyszukaj repozytoria" class="button">
+        </form>
     </div>
-
-    <div th:each="repo: ${repos}" class="repo">
+    <div th:each="repo: ${reposByGithub}" class="repo">
         <div th:text="${repo.id}" class="id"></div>
         <div th:text="${repo.owner}" class="owner"></div>
         <div th:text="${repo.name}" class="name"></div>
         <div class="update"><a th:href="@{/view/update/{id}(id=${repo.id})}" class="button">EDYTUJ</a></div>
         <div class="delete"><a th:href="@{/view/delete/{id}(id=${repo.id})}" class="button">USUŃ</a></div>
     </div>
-
 </div>
 
 </body>

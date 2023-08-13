@@ -59,5 +59,15 @@ body {
     text-align: center;
 }
 
+.input{
+    font-size: 16px;
+    margin: 5px 10px;;
+    border: 2px solid #003333;
+    border-radius: 8px;
+    padding: 5px 20px;
+    color: #000000;
+    display: inline-block;
+    background-color: #fffef5;
+}
 
 

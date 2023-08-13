@@ -1,6 +1,7 @@
 .repo {
     text-align: left;
     margin: 10px;
+    border: 1px solid #003333;
 }
 
 .repo:hover {
@@ -9,8 +10,16 @@
     margin: 10px;
 }
 
+.repo .id{
+    width: 5%;
+    font-size: 14px;
+    margin: 5px;
+    text-align: left;
+    display: inline-block;
+}
+
 .repo .owner{
-    width: 30%;
+    width: 15%;
     font-size: 14px;
     margin: 5px;
     text-align: left;
@@ -18,7 +27,23 @@
 }
 
 .repo .name{
-    width: 60%;
+    width: 50%;
+    font-size: 14px;
+    margin: 5px;
+    text-align: left;
+    display: inline-block;
+}
+
+.repo .update{
+    width: 10%;
+    font-size: 14px;
+    margin: 5px;
+    text-align: left;
+    display: inline-block;
+}
+
+.repo .delete{
+    width: 10%;
     font-size: 14px;
     margin: 5px;
     text-align: left;

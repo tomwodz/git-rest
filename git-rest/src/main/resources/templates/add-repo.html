@@ -10,10 +10,12 @@
 <div th:replace="~{fragments.html :: menu}"></div>
 
 <div id="content">
-    Zapraszam do zapoznania się z tym projektem.<br><br>
-    Technologie: REST API, Client to GITHUB, Spring Boot, Spring Data, Hibernate, Docker, Postgresql, Swagger, Spring MVC<br><br>
-    W przypadku pytań prosze o kontakt:<br>
-    twodzinski@op.pl
+    <form method="post">
+        <input type="text" name="owner" id="owner" class="input" placeholder="Właściciel" th:field="*{repoModel.owner}">
+        <input type="text" name="name" id="name" class="input" placeholder="Nazwa repozytorium" th:field="*{repoModel.name}">
+        <input type="submit" value="Dodaj/Edytuj repozytorium" class="button">
+    </form>
 </div>
+
 </body>
 </html>
