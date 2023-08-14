@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.tomwodz.gitrest.domain.model.Repo;
 import pl.tomwodz.gitrest.domain.model.SampleViewResponseDto;
-import pl.tomwodz.gitrest.domain.service.GithubService;
+import pl.tomwodz.gitrest.domain.service.IGithubRetriever;
 import pl.tomwodz.gitrest.domain.service.IRepoAdder;
 import pl.tomwodz.gitrest.git.infrastructure.controller.dto.response.GetAllReposByOwnerResponseDto;
 import pl.tomwodz.gitrest.git.infrastructure.error.model.GithubNotFoundUsernameException;
@@ -30,8 +30,8 @@ import static pl.tomwodz.gitrest.git.infrastructure.controller.RepoMapper.mapFro
 @RequestMapping("/github")
 public class GitRestController {
 
-    private final GithubService githubService;
     private final IRepoAdder repoAdder;
+    private final IGithubRetriever githubRetriever;
 
     private List<SampleViewResponseDto> response = new ArrayList<>();
 
@@ -39,7 +39,7 @@ public class GitRestController {
     public ResponseEntity<List<SampleViewResponseDto>> getUsernameAllGithubRepositories(@PathVariable String username) {
         log.info("get repos and branches from github by " + username);
         try {
-            response = githubService.makeGetRequestAllByUsername(username);
+            response = githubRetriever.makeGetRequestAllByUsername(username);
             return ResponseEntity.ok(response);
         } catch (FeignException exception) {
             throw new GithubNotFoundUsernameException("not existing github user");
@@ -57,7 +57,7 @@ public class GitRestController {
     public ResponseEntity<GetAllReposByOwnerResponseDto> getUsernameAllGithubRepos(@PathVariable String username) {
         log.info("get and save repos from github by " + username);
         try {
-            List<ReposByUsernameResponseDto> request = githubService.makeGetRequestAllReposByUsername(username);
+            List<ReposByUsernameResponseDto> request = githubRetriever.makeGetRequestByUsername(username);
             List<Repo> reposToSave = mapFromListReposByUsernameResponseDtoToListRepo(request, username);
             List<Repo> reposSaved = repoAdder.addListRepos(reposToSave);
             GetAllReposByOwnerResponseDto response = mapFromRepoToGetAllReposByOwnerResponseDto(reposSaved);

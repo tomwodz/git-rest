@@ -12,13 +12,13 @@ import java.util.Optional;
 
 public interface IRepoRepository extends Repository<Repo, Long> {
 
-    @Query("SELECT r FROM Repo r")
+    @Query("SELECT r FROM Repo r ORDER BY r.id DESC")
     List<Repo> findAll(Pageable pageable);
 
-    @Query("SELECT r FROM Repo r WHERE  r.id =:id")
+    @Query("SELECT r FROM Repo r WHERE  r.id =:id ORDER BY r.id DESC")
     Optional<Repo> findById(Long id);
 
-    @Query("SELECT r FROM Repo r WHERE  r.owner =:owner")
+    @Query("SELECT r FROM Repo r WHERE  r.owner =:owner ORDER BY r.id DESC")
     List<Repo> findByOwner(String owner);
 
     Repo save(Repo repo);

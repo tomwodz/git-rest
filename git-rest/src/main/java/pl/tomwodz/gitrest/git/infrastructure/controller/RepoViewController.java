@@ -27,7 +27,7 @@ public class RepoViewController {
     private final IRepoDeleter repoDeleter;
     private final IRepoUpdater repoUpdater;
     private final IRepoAdder repoAdder;
-    private final GithubService githubService;
+    private  final IGithubRetriever githubRetriever;
 
     @GetMapping(path = "/")
     public String main(Model model) {
@@ -124,7 +124,7 @@ public class RepoViewController {
         }
         try {
             String username = repo.getOwner();
-            List<ReposByUsernameResponseDto> request = this.githubService.makeGetRequestAllReposByUsername(username);
+            List<ReposByUsernameResponseDto> request = this.githubRetriever.makeGetRequestByUsername(username);
             List<Repo> reposToSave = mapFromListReposByUsernameResponseDtoToListRepo(request, username);
             List<Repo> reposSaved = this.repoAdder.addListRepos(reposToSave);
             model.addAttribute("requestModel", repo);

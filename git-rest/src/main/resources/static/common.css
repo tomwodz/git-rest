@@ -30,9 +30,8 @@ body {
     border: 2px solid #003333;
     border-radius: 8px;
     padding: 5px 20px;
-    color: #003333;
-    transition: 0.5s;
-    background-color: #99cccc;
+    color: #FFFFFF;
+    background-color: #003333;
     cursor: pointer;
     display: inline-block;
 }
@@ -69,5 +68,6 @@ body {
     display: inline-block;
     background-color: #fffef5;
 }
+
 
 

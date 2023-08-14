@@ -5,6 +5,7 @@
     <title>Github - Spring Boot - REST API - Client to Github</title>
     <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="/repo.css">
+    <link rel="stylesheet" href="/button.css">
 </head>
 <body>
 
@@ -32,8 +33,8 @@
         <div th:text="${repo.id}" class="id"></div>
         <div th:text="${repo.owner}" class="owner"></div>
         <div th:text="${repo.name}" class="name"></div>
-        <div class="update"><a th:href="@{/view/update/{id}(id=${repo.id})}" class="button">EDYTUJ</a></div>
-        <div class="delete"><a th:href="@{/view/delete/{id}(id=${repo.id})}" class="button">USUŃ</a></div>
+        <div class="update"><a th:href="@{/view/update/{id}(id=${repo.id})}" class="button_update">EDYTUJ</a></div>
+        <div class="delete"><a th:href="@{/view/delete/{id}(id=${repo.id})}" class="button_delete">USUŃ</a></div>
     </div>
 
 </div>
